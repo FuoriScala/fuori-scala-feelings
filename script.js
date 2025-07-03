@@ -1,7 +1,6 @@
-// Sostituisci con il tuo endpoint reale da SheetDB
+// Replace with your actual SheetDB API endpoint (keep the quotes)
 const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/m9769bwpvfaga';
 
-// Elementi DOM
 const bubble = document.getElementById('emotionBubble');
 const materialSpan = document.getElementById('material');
 const colorSpan = document.getElementById('color');
@@ -12,34 +11,76 @@ const qrCanvas = document.getElementById('qrCanvas');
 
 let currentData = {};
 
-// Funzione: genera ID unico
 function generateId(name) {
   const date = new Date().toISOString().replace(/[-:.]/g, '');
-  const cleanName = name ? name.trim().toLowerCase().replace(/\s+/g, '_') : 'anonimo';
+  const cleanName = name ? name.trim().toLowerCase().replace(/\s+/g, '_') : 'anonymous';
   return `${cleanName}_${date}`;
 }
 
-// Funzione: visualizza i dati sulla pagina
 function displayData(data) {
   bubble.style.background = `linear-gradient(270deg, ${data.color}, #00f2fe, ${data.color})`;
+  bubble.textContent = data.emotion;
+
   materialSpan.textContent = data.material;
   colorSpan.textContent = data.color;
   emotionSpan.textContent = data.emotion;
-  bubble.textContent = data.emotion;
+
+  const descriptions = {
+    'Joy': {
+      title: 'Yellow – Joy',
+      text: 'Bright, sunny, energizing. Sparks creativity and cheerfulness.'
+    },
+    'Sadness': {
+      title: 'Blue – Sadness',
+      text: 'Deep, calm, introspective. Invites reflection and melancholy.'
+    },
+    'Anger': {
+      title: 'Red – Anger',
+      text: 'Intense, passionate, powerful. Fire-like and impulsive.'
+    },
+    'Fear': {
+      title: 'Black – Fear',
+      text: 'Dark, mysterious, protective. Linked to uncertainty and the unknown.'
+    },
+    'Calm': {
+      title: 'Green – Calm',
+      text: 'Natural, relaxing, balanced. A symbol of peace and renewal.'
+    },
+    'Love': {
+      title: 'Pink – Love',
+      text: 'Sweet, welcoming, emotional. Represents affection and tenderness.'
+    }
+  };
+
+  const desc = descriptions[data.emotion] || {
+    title: 'Unknown emotion',
+    text: 'No description available.'
+  };
+
+  document.getElementById('emotionTitle').textContent = desc.title;
+  document.getElementById('emotionText').textContent = desc.text;
 }
 
-// Funzione: leggi dati da URL
 function loadData() {
   const urlParams = new URLSearchParams(window.location.search);
-  const material = urlParams.get('material') || 'juta';
-  const color = urlParams.get('color') || '#C19A6B';
-  const emotion = urlParams.get('emotion') || 'calma';
+  const material = urlParams.get('material') || 'jute';
+  const emotion = urlParams.get('emotion') || 'Calm';
+
+  const emotionColors = {
+    'Joy': '#FFD700',
+    'Sadness': '#4682B4',
+    'Anger': '#DC143C',
+    'Fear': '#000000',
+    'Calm': '#3CB371',
+    'Love': '#FF69B4'
+  };
+
+  const color = emotionColors[emotion] || '#CCCCCC';
 
   currentData = { material, color, emotion };
   displayData(currentData);
 }
 
-// Funzione: invia dati a SheetDB
 function saveData(data) {
   fetch(SHEETDB_API_URL, {
     method: 'POST',
@@ -47,18 +88,17 @@ function saveData(data) {
     body: JSON.stringify({ data }),
   })
     .then(response => {
-      if (!response.ok) throw new Error('Errore salvataggio');
+      if (!response.ok) throw new Error('Save error');
       return response.json();
     })
     .then(json => {
-      console.log('Dati salvati:', json);
+      console.log('Data saved:', json);
     })
     .catch(error => {
-      console.error('Errore:', error);
+      console.error('Error:', error);
     });
 }
 
-// Funzione: genera QR code
 function generateQR(url) {
   const qr = new QRious({
     element: qrCanvas,
@@ -68,10 +108,9 @@ function generateQR(url) {
   qrSection.classList.add('visible');
 }
 
-// Gestione invio form
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  const name = form.name.value || 'anonimo';
+  const name = form.name.value || 'anonymous';
   const thought = form.thought.value || '';
   const id = generateId(name);
 
@@ -85,13 +124,10 @@ form.addEventListener('submit', (e) => {
     id,
   };
 
-  // Salva su SheetDB
   saveData(payload);
 
-  // Genera URL con dati e QR code
-  const url = `${window.location.origin}${window.location.pathname}?material=${encodeURIComponent(currentData.material)}&color=${encodeURIComponent(currentData.color)}&emotion=${encodeURIComponent(currentData.emotion)}&id=${encodeURIComponent(id)}`;
+  const url = `${window.location.origin}${window.location.pathname}?material=${encodeURIComponent(currentData.material)}&emotion=${encodeURIComponent(currentData.emotion)}&id=${encodeURIComponent(id)}`;
   generateQR(url);
 });
 
-// Avvia caricamento dati
 loadData();
