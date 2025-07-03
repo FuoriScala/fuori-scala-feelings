@@ -2,7 +2,6 @@
 const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/m9769bwpvfaga';
 
 const bubble = document.getElementById('emotionBubble');
-const materialSpan = document.getElementById('material');
 const colorSpan = document.getElementById('color');
 const emotionSpan = document.getElementById('emotion');
 const form = document.getElementById('saveForm');
@@ -21,7 +20,6 @@ function displayData(data) {
   bubble.style.background = `linear-gradient(270deg, ${data.color}, #00f2fe, ${data.color})`;
   bubble.textContent = data.emotion;
 
-  materialSpan.textContent = data.material;
   colorSpan.textContent = data.color;
   emotionSpan.textContent = data.emotion;
 
@@ -63,7 +61,6 @@ function displayData(data) {
 
 function loadData() {
   const urlParams = new URLSearchParams(window.location.search);
-  const material = urlParams.get('material') || 'jute';
   const emotion = urlParams.get('emotion') || 'Calm';
 
   const emotionColors = {
@@ -77,7 +74,7 @@ function loadData() {
 
   const color = emotionColors[emotion] || '#CCCCCC';
 
-  currentData = { material, color, emotion };
+  currentData = { color, emotion };
   displayData(currentData);
 }
 
@@ -116,7 +113,6 @@ form.addEventListener('submit', (e) => {
 
   const payload = {
     timestamp: new Date().toISOString(),
-    material: currentData.material,
     color: currentData.color,
     emotion: currentData.emotion,
     thought,
@@ -126,7 +122,7 @@ form.addEventListener('submit', (e) => {
 
   saveData(payload);
 
-  const url = `${window.location.origin}${window.location.pathname}?material=${encodeURIComponent(currentData.material)}&emotion=${encodeURIComponent(currentData.emotion)}&id=${encodeURIComponent(id)}`;
+  const url = `${window.location.origin}${window.location.pathname}?emotion=${encodeURIComponent(currentData.emotion)}&id=${encodeURIComponent(id)}`;
   generateQR(url);
 });
 
