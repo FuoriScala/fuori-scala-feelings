@@ -9,14 +9,16 @@
 <body>
   <main>
     <h1>La tua emozione</h1>
+
     <div id="emotionBubble">Calm</div>
     <p id="emotionDescription"></p>
 
     <div id="qrCode"></div>
 
-    <button id="showBagBtn" style="display:none;">Genera la tua borsa emozionale</button>
+    <!-- Bottone per generare la borsa -->
+    <button id="showBagBtn" style="display:none; margin-top: 20px;">Genera la tua borsa emozionale</button>
 
-    <div id="bagContainer" style="display:none;">
+    <div id="bagContainer" style="display:none; opacity: 0;">
       <img id="bagImage" alt="Borsa emozionale" />
       <p id="thoughtText"></p>
       <button id="downloadBtn">Scarica la tua borsa</button>
@@ -25,8 +27,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
-  <script src="script.js"></script>
-
   <script>
     const emotionsData = {
       Joy: {
@@ -97,8 +97,8 @@
     }
 
     function fadeIn(element) {
-      element.style.opacity = 0;
       element.style.display = 'block';
+      element.style.opacity = 0;
       let op = 0;
       const timer = setInterval(() => {
         op += 0.05;
@@ -131,4 +131,3 @@
   </script>
 </body>
 </html>
-
