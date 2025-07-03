@@ -1,5 +1,5 @@
-// Replace with your actual SheetDB API endpoint (keep the quotes)
-const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/YOUR_ENDPOINT_HERE';
+// Inserisci qui il tuo endpoint SheetDB
+const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/IL_TUO_ENDPOINT';
 
 const bubble = document.getElementById('emotionBubble');
 const materialSpan = document.getElementById('material');
@@ -13,7 +13,7 @@ let currentData = {};
 
 function generateId(name) {
   const date = new Date().toISOString().replace(/[-:.]/g, '');
-  const cleanName = name ? name.trim().toLowerCase().replace(/\s+/g, '_') : 'anonymous';
+  const cleanName = name ? name.trim().toLowerCase().replace(/\s+/g, '_') : 'anonimo';
   return `${cleanName}_${date}`;
 }
 
@@ -26,35 +26,35 @@ function displayData(data) {
   emotionSpan.textContent = data.emotion;
 
   const descriptions = {
-    'Joy': {
-      title: 'Yellow – Joy',
-      text: 'Bright, sunny, energizing. Sparks creativity and cheerfulness.'
+    'Gioia': {
+      title: 'Giallo – Gioia',
+      text: 'Luminoso, solare, energizzante. Stimola creatività e allegria.'
     },
-    'Sadness': {
-      title: 'Blue – Sadness',
-      text: 'Deep, calm, introspective. Invites reflection and melancholy.'
+    'Tristezza': {
+      title: 'Blu – Tristezza',
+      text: 'Profondo, calmo, introspettivo. Richiama la riflessione e la malinconia.'
     },
-    'Anger': {
-      title: 'Red – Anger',
-      text: 'Intense, passionate, powerful. Fire-like and impulsive.'
+    'Rabbia': {
+      title: 'Rosso – Rabbia',
+      text: 'Intenso, passionale, forte. Colore del fuoco e delle emozioni impulsive.'
     },
-    'Fear': {
-      title: 'Black – Fear',
-      text: 'Dark, mysterious, protective. Linked to uncertainty and the unknown.'
+    'Paura': {
+      title: 'Nero – Paura',
+      text: 'Scuro, misterioso, protettivo. Spesso legato all\'incertezza o all\'ignoto.'
     },
-    'Calm': {
-      title: 'Green – Calm',
-      text: 'Natural, relaxing, balanced. A symbol of peace and renewal.'
+    'Serenità': {
+      title: 'Verde – Serenità',
+      text: 'Naturale, rilassante, equilibrato. Simbolo di calma e rinascita.'
     },
-    'Love': {
-      title: 'Pink – Love',
-      text: 'Sweet, welcoming, emotional. Represents affection and tenderness.'
+    'Amore': {
+      title: 'Rosa – Amore',
+      text: 'Dolce, accogliente, emotivo. Rappresenta affetto e tenerezza.'
     }
   };
 
   const desc = descriptions[data.emotion] || {
-    title: 'Unknown emotion',
-    text: 'No description available.'
+    title: 'Emozione sconosciuta',
+    text: 'Descrizione non disponibile.'
   };
 
   document.getElementById('emotionTitle').textContent = desc.title;
@@ -63,16 +63,16 @@ function displayData(data) {
 
 function loadData() {
   const urlParams = new URLSearchParams(window.location.search);
-  const material = urlParams.get('material') || 'jute';
-  const emotion = urlParams.get('emotion') || 'Calm';
+  const material = urlParams.get('material') || 'juta';
+  const emotion = urlParams.get('emotion') || 'Serenità';
 
   const emotionColors = {
-    'Joy': '#FFD700',
-    'Sadness': '#4682B4',
-    'Anger': '#DC143C',
-    'Fear': '#000000',
-    'Calm': '#3CB371',
-    'Love': '#FF69B4'
+    'Gioia': '#FFD700',
+    'Tristezza': '#4682B4',
+    'Rabbia': '#DC143C',
+    'Paura': '#000000',
+    'Serenità': '#3CB371',
+    'Amore': '#FF69B4'
   };
 
   const color = emotionColors[emotion] || '#CCCCCC';
@@ -88,14 +88,14 @@ function saveData(data) {
     body: JSON.stringify({ data }),
   })
     .then(response => {
-      if (!response.ok) throw new Error('Save error');
+      if (!response.ok) throw new Error('Errore salvataggio');
       return response.json();
     })
     .then(json => {
-      console.log('Data saved:', json);
+      console.log('Dati salvati:', json);
     })
     .catch(error => {
-      console.error('Error:', error);
+      console.error('Errore:', error);
     });
 }
 
@@ -110,7 +110,7 @@ function generateQR(url) {
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  const name = form.name.value || 'anonymous';
+  const name = form.name.value || 'anonimo';
   const thought = form.thought.value || '';
   const id = generateId(name);
 
