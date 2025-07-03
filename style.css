@@ -1,4 +1,3 @@
-/* Stili base pagina */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #f0f8ff;
@@ -8,19 +7,16 @@ body {
   text-align: center;
 }
 
-/* Titoli */
-h1, h2 {
-  margin-bottom: 1rem;
+h1, h2, h3 {
   color: #005f99;
 }
 
-/* Container principale */
 .container {
   max-width: 600px;
   margin: 0 auto;
 }
 
-/* Bolla emozione con animazione mare */
+/* Bolla emozionale */
 #emotionBubble {
   width: 150px;
   height: 150px;
@@ -39,20 +35,12 @@ h1, h2 {
   user-select: none;
 }
 
-/* Animazione sfondo */
 @keyframes wave {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* Form */
 form {
   margin-top: 30px;
   display: flex;
@@ -84,10 +72,9 @@ button:hover {
   background-color: #005fa3;
 }
 
-/* Sezione QR code */
 #qrSection {
   margin-top: 20px;
-  display: none; /* Nascondi di default */
+  display: none;
   justify-content: center;
 }
 
