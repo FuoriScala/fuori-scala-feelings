@@ -124,6 +124,11 @@ form.addEventListener('submit', (e) => {
 
   const url = `${window.location.origin}${window.location.pathname}?emotion=${encodeURIComponent(currentData.emotion)}&id=${encodeURIComponent(id)}`;
   generateQR(url);
+
+  // 👇 AGGIUNTA: Mostra il pulsante per generare la borsa
+  const bagUrl = `bag.html?emotion=${encodeURIComponent(currentData.emotion)}&thought=${encodeURIComponent(thought)}`;
+  document.getElementById('bagLink').href = bagUrl;
+  document.getElementById('generateBagLink').classList.remove('hidden');
 });
 
 loadData();
