@@ -1,42 +1,42 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fuori Scala – Il tuo stato d’animo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fuori Scala Feelings – Your Emotion Today</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>Fuori Scala Feelings</h1>
-    <h2>Questa è la tua emozione oggi</h2>
+    <h2>This is your emotion today</h2>
 
-    <!-- Bolla emozionale animata -->
-    <div id="emotionBubble">Emozione</div>
+    <!-- Emotion bubble -->
+    <div id="emotionBubble">Emotion</div>
 
-    <!-- Info emozione -->
+    <!-- Emotion description -->
     <div id="emotionDescription" style="margin-top: 20px;">
       <h3 id="emotionTitle">–</h3>
       <p id="emotionText">...</p>
     </div>
 
-    <!-- Dati visualizzati -->
-    <p>Materiale: <strong id="material">-</strong></p>
-    <p>Colore: <strong id="color">-</strong></p>
-    <p>Emozione: <strong id="emotion">-</strong></p>
+    <!-- Data displayed -->
+    <p>Material: <strong id="material">-</strong></p>
+    <p>Color: <strong id="color">-</strong></p>
+    <p>Emotion: <strong id="emotion">-</strong></p>
 
-    <!-- Form pensiero -->
+    <!-- Thought form -->
     <form id="saveForm">
-      <input type="text" name="name" placeholder="Il tuo nome (opzionale)" />
-      <textarea name="thought" placeholder="Scrivi un pensiero..." rows="4"></textarea>
-      <button type="submit">Salva il tuo stato d'animo</button>
+      <input type="text" name="name" placeholder="Your name (optional)" />
+      <textarea name="thought" placeholder="Write a thought..." rows="4"></textarea>
+      <button type="submit">Save your emotion</button>
     </form>
 
-    <!-- QR Code generato -->
+    <!-- QR code section -->
     <div id="qrSection" class="hidden">
       <div>
-        <p>Salvato! Scansiona il tuo QR code personale:</p>
+        <p>Saved! Scan your personal QR code:</p>
         <canvas id="qrCanvas"></canvas>
       </div>
     </div>
