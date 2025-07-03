@@ -1,110 +1,83 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #fafafa;
-  text-align: center;
-  padding: 30px;
-  margin: 0;
-}
-
-main {
-  max-width: 500px;
-  margin: auto;
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
-h1 {
-  margin-bottom: 25px;
-  font-weight: 700;
+  background: #f0f8ff;
   color: #333;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
 }
 
+h1, h2, h3 {
+  color: #005f99;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Emotion bubble */
 #emotionBubble {
+  width: 150px;
+  height: 150px;
   margin: 20px auto;
-  width: 180px;
-  height: 180px;
   border-radius: 50%;
+  background: linear-gradient(270deg, #4facfe, #00f2fe, #4facfe);
+  background-size: 600% 600%;
+  animation: wave 8s ease infinite;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
   color: white;
-  font-size: 2.1rem;
-  font-weight: 700;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  font-size: 1.2rem;
+  user-select: none;
 }
 
-#emotionDescription {
-  max-width: 350px;
-  margin: 15px auto 30px auto;
-  font-size: 1.1rem;
-  color: #444;
-  line-height: 1.4;
-  white-space: pre-line;
+@keyframes wave {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-#qrCode {
-  margin-top: 15px;
+form {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input[type="text"],
+textarea {
+  padding: 10px;
+  border: 2px solid #00aaff;
+  border-radius: 8px;
+  font-size: 1rem;
+  resize: vertical;
 }
 
 button {
-  margin-top: 25px;
-  padding: 14px 30px;
-  font-size: 1.1rem;
-  background: #007acc;
+  background-color: #0077cc;
   color: white;
   border: none;
-  border-radius: 30px;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background: #005fa3;
+  background-color: #005fa3;
 }
 
-#bagContainer {
-  margin-top: 30px;
-  text-align: center;
+#qrSection {
+  margin-top: 20px;
   display: none;
-  opacity: 0;
-  transition: opacity 1s ease;
+  justify-content: center;
 }
 
-#bagImage {
-  width: 220px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-}
-
-#thoughtText {
-  margin-top: 18px;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  font-size: 1.2rem;
-  color: #222;
-  padding: 10px 20px;
-  max-width: 320px;
-  margin-left: auto;
-  margin-right: auto;
-  background: #fff8dc;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  white-space: pre-wrap;
-}
-
-#downloadBtn {
-  margin-top: 22px;
-  padding: 12px 28px;
-  font-size: 1.1rem;
-  background: #007acc;
-  color: white;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#downloadBtn:hover {
-  background: #005fa3;
+#qrSection.visible {
+  display: flex;
 }
