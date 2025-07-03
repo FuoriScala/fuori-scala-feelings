@@ -1,133 +1,126 @@
-// Replace with your actual SheetDB API endpoint (keep the quotes)
-const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/m9769bwpvfaga';
-
-const bubble = document.getElementById('emotionBubble');
-const materialSpan = document.getElementById('material');
-const colorSpan = document.getElementById('color');
-const emotionSpan = document.getElementById('emotion');
-const form = document.getElementById('saveForm');
-const qrSection = document.getElementById('qrSection');
-const qrCanvas = document.getElementById('qrCanvas');
-
-let currentData = {};
-
-function generateId(name) {
-  const date = new Date().toISOString().replace(/[-:.]/g, '');
-  const cleanName = name ? name.trim().toLowerCase().replace(/\s+/g, '_') : 'anonymous';
-  return `${cleanName}_${date}`;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #fafafa;
+  text-align: center;
+  padding: 30px;
+  margin: 0;
 }
 
-function displayData(data) {
-  bubble.style.background = `linear-gradient(270deg, ${data.color}, #00f2fe, ${data.color})`;
-  bubble.textContent = data.emotion;
-
-  materialSpan.textContent = data.material;
-  colorSpan.textContent = data.color;
-  emotionSpan.textContent = data.emotion;
-
-  const descriptions = {
-    'Joy': {
-      title: 'Yellow – Joy',
-      text: 'Bright, sunny, energizing. Sparks creativity and cheerfulness.'
-    },
-    'Sadness': {
-      title: 'Blue – Sadness',
-      text: 'Deep, calm, introspective. Invites reflection and melancholy.'
-    },
-    'Anger': {
-      title: 'Red – Anger',
-      text: 'Intense, passionate, powerful. Fire-like and impulsive.'
-    },
-    'Fear': {
-      title: 'Black – Fear',
-      text: 'Dark, mysterious, protective. Linked to uncertainty and the unknown.'
-    },
-    'Calm': {
-      title: 'Green – Calm',
-      text: 'Natural, relaxing, balanced. A symbol of peace and renewal.'
-    },
-    'Love': {
-      title: 'Pink – Love',
-      text: 'Sweet, welcoming, emotional. Represents affection and tenderness.'
-    }
-  };
-
-  const desc = descriptions[data.emotion] || {
-    title: 'Unknown emotion',
-    text: 'No description available.'
-  };
-
-  document.getElementById('emotionTitle').textContent = desc.title;
-  document.getElementById('emotionText').textContent = desc.text;
+main {
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
-function loadData() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const material = urlParams.get('material') || 'jute';
-  const emotion = urlParams.get('emotion') || 'Calm';
-
-  const emotionColors = {
-    'Joy': '#FFD700',
-    'Sadness': '#4682B4',
-    'Anger': '#DC143C',
-    'Fear': '#000000',
-    'Calm': '#3CB371',
-    'Love': '#FF69B4'
-  };
-
-  const color = emotionColors[emotion] || '#CCCCCC';
-
-  currentData = { material, color, emotion };
-  displayData(currentData);
+h1 {
+  margin-bottom: 25px;
+  font-weight: 700;
+  color: #333;
 }
 
-function saveData(data) {
-  fetch(SHEETDB_API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ data }),
-  })
-    .then(response => {
-      if (!response.ok) throw new Error('Save error');
-      return response.json();
-    })
-    .then(json => {
-      console.log('Data saved:', json);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+label {
+  font-weight: 600;
+  display: block;
+  text-align: left;
+  margin: 15px 0 6px;
+  font-size: 1rem;
 }
 
-function generateQR(url) {
-  const qr = new QRious({
-    element: qrCanvas,
-    value: url,
-    size: 200,
-  });
-  qrSection.classList.add('visible');
+select, textarea, input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  resize: vertical;
 }
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const name = form.name.value || 'anonymous';
-  const thought = form.thought.value || '';
-  const id = generateId(name);
+button {
+  margin-top: 25px;
+  padding: 14px 30px;
+  font-size: 1.1rem;
+  background: #007acc;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-  const payload = {
-    timestamp: new Date().toISOString(),
-    material: currentData.material,
-    color: currentData.color,
-    emotion: currentData.emotion,
-    thought,
-    name,
-    id,
-  };
+button:hover {
+  background: #005fa3;
+}
 
-  saveData(payload);
+#emotionBubble {
+  margin: 20px auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2.1rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
 
-  const url = `${window.location.origin}${window.location.pathname}?material=${encodeURIComponent(currentData.material)}&emotion=${encodeURIComponent(currentData.emotion)}&id=${encodeURIComponent(id)}`;
-  generateQR(url);
-});
+#emotionDescription {
+  max-width: 350px;
+  margin: 15px auto 30px auto;
+  font-size: 1.1rem;
+  color: #444;
+  line-height: 1.4;
+}
 
-loadData();
+#qrCode {
+  margin-top: 15px;
+}
+
+#bagContainer {
+  margin-top: 30px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+#bagImage {
+  width: 220px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+#thoughtText {
+  margin-top: 18px;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 1.2rem;
+  color: #222;
+  padding: 10px 20px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fff8dc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  white-space: pre-wrap;
+}
+
+#downloadBtn {
+  margin-top: 22px;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  background: #007acc;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#downloadBtn:hover {
+  background: #005fa3;
+}
