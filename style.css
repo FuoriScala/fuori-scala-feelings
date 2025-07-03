@@ -1,0 +1,56 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f7f7f7;
+  color: #333;
+  padding: 1rem 2rem;
+  text-align: center;
+}
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+.bubble {
+  width: 200px;
+  height: 200px;
+  margin: 20px auto;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  transition: background 0.5s ease;
+}
+.info p {
+  font-size: 1.1rem;
+  margin: 5px 0;
+}
+form {
+  margin-top: 20px;
+  text-align: left;
+}
+input[type="text"], textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.3rem 0 1rem 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  resize: vertical;
+}
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+button:hover {
+  background-color: #45a049;
+}
+.hidden {
+  display: none;
+}
+#qrSection {
+  margin-top: 20px;
+}
