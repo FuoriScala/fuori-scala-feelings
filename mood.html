@@ -3,45 +3,132 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fuori Scala Feelings – Your Emotion Today</title>
+  <title>Fuori Scala Feelings - Mood</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Fuori Scala Feelings</h1>
-    <h2>This is your emotion today</h2>
+  <main>
+    <h1>La tua emozione</h1>
+    <div id="emotionBubble">Calm</div>
+    <p id="emotionDescription"></p>
 
-    <!-- Emotion bubble -->
-    <div id="emotionBubble">Emotion</div>
+    <div id="qrCode"></div>
 
-    <!-- Emotion description -->
-    <div id="emotionDescription" style="margin-top: 20px;">
-      <h3 id="emotionTitle">–</h3>
-      <p id="emotionText">...</p>
+    <button id="showBagBtn" style="display:none;">Genera la tua borsa emozionale</button>
+
+    <div id="bagContainer" style="display:none;">
+      <img id="bagImage" alt="Borsa emozionale" />
+      <p id="thoughtText"></p>
+      <button id="downloadBtn">Scarica la tua borsa</button>
     </div>
+  </main>
 
-    <!-- Data displayed -->
-    <p>Material: <strong id="material">-</strong></p>
-    <p>Color: <strong id="color">-</strong></p>
-    <p>Emotion: <strong id="emotion">-</strong></p>
-
-    <!-- Thought form -->
-    <form id="saveForm">
-      <input type="text" name="name" placeholder="Your name (optional)" />
-      <textarea name="thought" placeholder="Write a thought..." rows="4"></textarea>
-      <button type="submit">Save your emotion</button>
-    </form>
-
-    <!-- QR code section -->
-    <div id="qrSection" class="hidden">
-      <div>
-        <p>Saved! Scan your personal QR code:</p>
-        <canvas id="qrCanvas"></canvas>
-      </div>
-    </div>
-  </div>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
   <script src="script.js"></script>
+
+  <script>
+    const emotionsData = {
+      Joy: {
+        color: '#FFD700',
+        description: 'Bright, sunny, energizing.\nStimulates creativity and cheerfulness.'
+      },
+      Sadness: {
+        color: '#4682B4',
+        description: 'Deep, calm, introspective.\nEvokes reflection and melancholy.'
+      },
+      Anger: {
+        color: '#DC143C',
+        description: 'Intense, passionate, strong.\nColor of fire and impulsive emotions.'
+      },
+      Fear: {
+        color: '#000000',
+        description: 'Dark, mysterious, protective.\nOften linked to uncertainty or the unknown.'
+      },
+      Calm: {
+        color: '#3CB371',
+        description: 'Natural, relaxing, balanced.\nSymbol of calm and renewal.'
+      },
+      Love: {
+        color: '#FF69B4',
+        description: 'Sweet, welcoming, emotional.\nRepresents affection and tenderness.'
+      }
+    };
+
+    const emotionBubble = document.getElementById('emotionBubble');
+    const emotionDescription = document.getElementById('emotionDescription');
+    const qrCodeDiv = document.getElementById('qrCode');
+    const showBagBtn = document.getElementById('showBagBtn');
+    const bagContainer = document.getElementById('bagContainer');
+    const bagImage = document.getElementById('bagImage');
+    const thoughtText = document.getElementById('thoughtText');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    function getParam(param) {
+      return new URLSearchParams(window.location.search).get(param);
+    }
+
+    function updateEmotionUI() {
+      const emotionName = getParam('emotion') || localStorage.getItem('userEmotion') || 'Calm';
+      const data = emotionsData[emotionName] || emotionsData.Calm;
+
+      emotionBubble.textContent = emotionName;
+      emotionBubble.style.backgroundColor = data.color;
+      emotionDescription.textContent = data.description.replace(/\n/g, '\n');
+    }
+
+    function generateQR() {
+      const emotionName = getParam('emotion') || localStorage.getItem('userEmotion') || 'Calm';
+      const baseUrl = window.location.origin + window.location.pathname;
+      const url = `${baseUrl}?emotion=${encodeURIComponent(emotionName)}`;
+
+      qrCodeDiv.innerHTML = '';
+
+      const qr = new QRious({
+        element: document.createElement('canvas'),
+        value: url,
+        size: 200,
+        background: 'white',
+        foreground: emotionsData[emotionName]?.color || '#3CB371'
+      });
+
+      qrCodeDiv.appendChild(qr.element);
+      showBagBtn.style.display = 'inline-block';
+    }
+
+    function fadeIn(element) {
+      element.style.opacity = 0;
+      element.style.display = 'block';
+      let op = 0;
+      const timer = setInterval(() => {
+        op += 0.05;
+        element.style.opacity = op;
+        if (op >= 1) clearInterval(timer);
+      }, 30);
+    }
+
+    showBagBtn.addEventListener('click', () => {
+      const emotionName = getParam('emotion') || localStorage.getItem('userEmotion') || 'Calm';
+      bagImage.src = `images/bag-${emotionName.toLowerCase()}.png`;
+      thoughtText.textContent = localStorage.getItem('userThought') || 'Il tuo pensiero qui...';
+      fadeIn(bagContainer);
+      bagContainer.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      domtoimage.toPng(bagContainer)
+        .then((dataUrl) => {
+          const link = document.createElement('a');
+          link.download = 'borsa-emozionale.png';
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch((error) => console.error('Errore nel download:', error));
+    });
+
+    updateEmotionUI();
+    generateQR();
+  </script>
 </body>
 </html>
+
