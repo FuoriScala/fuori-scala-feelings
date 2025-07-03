@@ -3,84 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fuori Scala Feelings - Inizia</title>
+  <title>Fuori Scala Feelings - Choose Your Mood</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main>
-    <h1>Scrivi il tuo stato d'animo</h1>
-    <label for="emotion">Scegli emozione:</label>
-    <select id="emotion" required>
-      <option value="">-- Seleziona --</option>
-      <option value="Joy">Joy</option>
-      <option value="Sadness">Sadness</option>
-      <option value="Anger">Anger</option>
-      <option value="Fear">Fear</option>
-      <option value="Calm">Calm</option>
-      <option value="Love">Love</option>
-    </select>
+    <h1>Scegli la tua emozione</h1>
+    <form id="moodForm">
+      <label for="emotionSelect">Emozione:</label>
+      <select id="emotionSelect" name="emotion" required>
+        <option value="" disabled selected>Seleziona un'emozione</option>
+        <option value="Joy">Joy</option>
+        <option value="Sadness">Sadness</option>
+        <option value="Anger">Anger</option>
+        <option value="Fear">Fear</option>
+        <option value="Calm">Calm</option>
+        <option value="Love">Love</option>
+      </select>
 
-    <label for="thought">Scrivi il tuo pensiero:</label>
-    <textarea id="thought" rows="5" placeholder="Scrivi qui..."></textarea>
+      <label for="thoughtInput" style="margin-top: 20px; display: block;">Scrivi il tuo pensiero (opzionale):</label>
+      <textarea id="thoughtInput" name="thought" rows="4" placeholder="Esprimi qui il tuo stato d'animo..."></textarea>
 
-    <label for="name">Nome (opzionale):</label>
-    <input type="text" id="name" placeholder="Puoi lasciare anonimo" />
-
-    <button id="saveBtn">Salva e continua</button>
-
-    <p id="message"></p>
+      <button type="submit" style="margin-top: 30px;">Salva e Vai alla Borsa</button>
+    </form>
   </main>
 
-  <script src="script.js"></script>
   <script>
-    const saveBtn = document.getElementById('saveBtn');
-    const emotionInput = document.getElementById('emotion');
-    const thoughtInput = document.getElementById('thought');
-    const nameInput = document.getElementById('name');
-    const message = document.getElementById('message');
+    const form = document.getElementById('moodForm');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
 
-    // Cambia qui con il tuo endpoint SheetDB:
-    const sheetdbUrl = 'https://sheetdb.io/api/v1/TUO_ENDPOINT';
+      const emotion = form.emotion.value;
+      const thought = form.thought.value.trim();
 
-    saveBtn.addEventListener('click', () => {
-      const emotion = emotionInput.value;
-      const thought = thoughtInput.value.trim();
-      const name = nameInput.value.trim() || 'Anonimo';
-
-      if (!emotion || !thought) {
-        message.style.color = 'red';
-        message.textContent = 'Seleziona un\'emozione e scrivi un pensiero.';
+      if(!emotion) {
+        alert('Per favore, seleziona un\'emozione.');
         return;
       }
-
-      message.textContent = 'Salvataggio in corso...';
 
       // Salva in localStorage
       localStorage.setItem('userEmotion', emotion);
       localStorage.setItem('userThought', thought);
-      localStorage.setItem('userName', name);
 
-      // Prepara dati per SheetDB
-      const data = { data: { name, emotion, thought, date: new Date().toISOString().slice(0, 10) } };
-
-      fetch(sheetdbUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error('Errore salvataggio');
-          message.style.color = 'green';
-          message.textContent = 'Pensiero salvato! Reindirizzamento...';
-          setTimeout(() => {
-            // Vai a mood.html con parametro emozione
-            window.location.href = `mood.html?emotion=${encodeURIComponent(emotion)}`;
-          }, 1500);
-        })
-        .catch(() => {
-          message.style.color = 'red';
-          message.textContent = 'Errore durante il salvataggio. Riprova più tardi.';
-        });
+      // Reindirizza a mood.html con query param
+      window.location.href = `mood.html?emotion=${encodeURIComponent(emotion)}`;
     });
   </script>
 </body>
