@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fuori Scala - Mood</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+</head>
+<body>
+  <main class="container">
+    <h1>La tua Emozione Tessile</h1>
+    <div class="bubble" id="emotionBubble"></div>
+    <div class="info">
+      <p><strong>Materiale:</strong> <span id="material"></span></p>
+      <p><strong>Colore:</strong> <span id="color"></span></p>
+      <p><strong>Emozione:</strong> <span id="emotion"></span></p>
+    </div>
+
+    <form id="saveForm">
+      <label for="name">Nome (opzionale):</label>
+      <input type="text" id="name" name="name" placeholder="oppure anonimo" />
+
+      <label for="thought">Scrivi un pensiero:</label>
+      <textarea id="thought" name="thought" rows="4" placeholder="Cosa provi in questo momento?"></textarea>
+
+      <button type="submit">Salva il mio stato</button>
+    </form>
+
+    <div id="qrSection" class="hidden">
+      <p>Salva o condividi il tuo QR personale:</p>
+      <canvas id="qrCanvas"></canvas>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
