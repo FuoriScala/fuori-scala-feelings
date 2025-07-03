@@ -1,5 +1,5 @@
 // Inserisci qui il tuo endpoint SheetDB
-const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/IL_TUO_ENDPOINT';
+const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/m9769bwpvfaga';
 
 const bubble = document.getElementById('emotionBubble');
 const materialSpan = document.getElementById('material');
