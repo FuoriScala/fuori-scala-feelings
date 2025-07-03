@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fuori Scala – Il tuo stato d’animo</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Fuori Scala Feelings</h1>
+    <h2>Questa è la tua emozione oggi</h2>
+
+    <!-- Bolla emozionale animata -->
+    <div id="emotionBubble">Emozione</div>
+
+    <!-- Info emozione -->
+    <div id="emotionDescription" style="margin-top: 20px;">
+      <h3 id="emotionTitle">–</h3>
+      <p id="emotionText">...</p>
+    </div>
+
+    <!-- Dati visualizzati -->
+    <p>Materiale: <strong id="material">-</strong></p>
+    <p>Colore: <strong id="color">-</strong></p>
+    <p>Emozione: <strong id="emotion">-</strong></p>
+
+    <!-- Form pensiero -->
+    <form id="saveForm">
+      <input type="text" name="name" placeholder="Il tuo nome (opzionale)" />
+      <textarea name="thought" placeholder="Scrivi un pensiero..." rows="4"></textarea>
+      <button type="submit">Salva il tuo stato d'animo</button>
+    </form>
+
+    <!-- QR Code generato -->
+    <div id="qrSection" class="hidden">
+      <div>
+        <p>Salvato! Scansiona il tuo QR code personale:</p>
+        <canvas id="qrCanvas"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
